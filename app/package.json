@@ -1,0 +1,26 @@
+{
+  "name": "photo-organizer",
+  "version": "0.0.1",
+  "description": "A simple app to help organize photos into groups (to be saved, to be deleted, to be edited, ...).",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varomorf/PhotOrganizer.git"
+  },
+  "keywords": [
+    "pictures",
+    "photos",
+    "organizer",
+    "manage",
+    "manager"
+  ],
+  "author": "varomorf@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/varomorf/PhotOrganizer/issues"
+  },
+  "homepage": "https://github.com/varomorf/PhotOrganizer#readme"
+}
