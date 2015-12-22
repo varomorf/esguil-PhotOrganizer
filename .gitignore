@@ -28,6 +28,7 @@ node_modules
 
 # Intellij IDEA
 *.iml
+.idea
 
 # Bower
 bower_components
