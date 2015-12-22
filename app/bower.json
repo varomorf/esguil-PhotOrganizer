@@ -1,0 +1,21 @@
+{
+  "name": "photo-organizer",
+  "description": "A simple app to help organize photos into groups (to be saved, to be deleted, to be edited, ...).",
+  "main": "main.js",
+  "authors": [
+    "varomorf@gmail.com"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "~1.0.1",
+    "angular-route": "~1.4.8"
+  }
+}

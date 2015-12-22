@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="photo-organizer">
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
@@ -8,6 +8,19 @@
     <h1>Hello World!</h1>
     We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    and Electron <script>document.write(process.versions.electron)</script>.g
+
+    <div ng-controller="testController as test">
+      <strong>{{test.message}}</strong>
+    </div>
+
+    <!-- build:js scripts/vendor.js -->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:app scripts/app.js -->
+    <script src="./components/testController.js"></script>
+    <!-- endbuild -->
+
   </body>
 </html>
