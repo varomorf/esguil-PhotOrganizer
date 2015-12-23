@@ -10,6 +10,7 @@
         // INTERFACE
 
         $scope.dirPath = '';
+        $scope.currentImg = '';
         $scope.openDir = openDir;
 
         // ATTRIBUTES
@@ -19,6 +20,7 @@
         var dialog = remote.require('dialog');
 
         var fileSet = [];
+        var currentFile = 0;
 
         // PUBLIC METHODS
 
@@ -27,22 +29,27 @@
                 //TODO assert only one file name is present
                 $scope.$apply(function () {
                     $scope.dirPath = fileNames[0];
-                    fs.readdir($scope.dirPath, loadFiles);
                 });
+                fs.readdir($scope.dirPath, loadFiles);
             });
         }
 
         // INTERNAL METHODS
 
         function loadFiles(err, files) {
-            fileSet = [];
             //TODO check errors
+            fileSet = [];
+            currentFile = 0;
+
             files.forEach(function (it) {
                 var filePath = $scope.dirPath + '/' + it;
 
                 if (fs.statSync(filePath).isFile()) {
                     fileSet.push(filePath);
                 }
+            });
+            $scope.$apply(function () {
+                $scope.currentImg = fileSet[0];
             });
         }
 
