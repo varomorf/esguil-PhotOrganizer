@@ -5,13 +5,15 @@
     <title>Hello World!</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.g
-
-    <div ng-controller="testController as test">
-      <strong>{{test.message}}</strong>
+    <h1>Photo Organizer</h1>
+    <div ng-controller="filesetController">
+        <button id="openDir" ng-click="openDir()">Open</button>
+        <input id="dirPath" type="text" disabled value="{{dirPath}}"/>
+        <br />
+        <img id="processingImage"/>
+        <br/>
+        <button id="nextImage" onclick="nextImage();">Next Image</button>
+        <button id="prevImage" onclick="prevImage();">Previous Image</button>
     </div>
 
     <!-- build:js scripts/vendor.js -->
@@ -19,7 +21,8 @@
     <!-- endbuild -->
 
     <!-- build:app scripts/app.js -->
-    <script src="./components/testController.js"></script>
+    <script src="./app.js"></script>
+    <script src="./components/filesetController.js"></script>
     <!-- endbuild -->
 
   </body>
