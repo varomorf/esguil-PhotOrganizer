@@ -13,6 +13,7 @@
         $scope.currentImg = '';
         $scope.openDir = openDir;
         $scope.nextImage = nextImage;
+        $scope.prevImage = prevImage;
 
         // ATTRIBUTES
 
@@ -41,16 +42,24 @@
 
         /**
          * <p>Shows the next picture of the fileset (as long as it holds at least one image).</p>
-         * <p>If the next image was selected, the next image will be the first one.</p>
-         * <p>TODO when the last image is shown and the next one is requested, show alert to user.</p>
+         * <p>If the last image was selected, no changes will be done.</p>
          */
         function nextImage() {
-            currentFile++;
-            if (currentFile == fileSet.length) {
-                currentFile = 0;
+            if (currentFile < fileSet.length - 1) {
+                currentFile++;
+                $scope.currentImg = fileSet[currentFile];
             }
+        }
 
-            $scope.currentImg = fileSet[currentFile];
+        /**
+         * <p>Shows the previous picture of the fileset (as long as it holds at least one image).</p>
+         * <p>If the first image was selected, no changes will be done.</p>
+         */
+        function prevImage() {
+            if (currentFile != 0) {
+                currentFile--;
+                $scope.currentImg = fileSet[currentFile];
+            }
         }
 
         // INTERNAL METHODS
