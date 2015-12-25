@@ -14,6 +14,7 @@
         $scope.openDir = openDir;
         $scope.nextImage = nextImage;
         $scope.prevImage = prevImage;
+        $scope.keepImage = keepImage;
 
         // ATTRIBUTES
 
@@ -47,7 +48,7 @@
         function nextImage() {
             if (currentFile < fileSet.length - 1) {
                 currentFile++;
-                $scope.currentImg = fileSet[currentFile];
+                $scope.currentImg = fileSet[currentFile].path;
             }
         }
 
@@ -58,8 +59,16 @@
         function prevImage() {
             if (currentFile != 0) {
                 currentFile--;
-                $scope.currentImg = fileSet[currentFile];
+                $scope.currentImg = fileSet[currentFile].path;
             }
+        }
+
+        /**
+         * <p>Marks the current image to be kept.</p>
+         */
+        function keepImage() {
+            //TODO refactor the different statuses as Enum or whatever
+            fileSet[currentFile].status = 1;
         }
 
         // INTERNAL METHODS
@@ -81,12 +90,17 @@
                 var filePath = $scope.dirPath + '/' + it;
 
                 if (fs.statSync(filePath).isFile()) {
-                    fileSet.push(filePath);
+                    fileSet.push(new ImageFile(filePath));
                 }
             });
             $scope.$apply(function () {
-                $scope.currentImg = fileSet[0];
+                $scope.currentImg = fileSet[0].path;
             });
+        }
+
+        function ImageFile(path){
+            this.path = path;
+            this.status = 0;
         }
 
     }
