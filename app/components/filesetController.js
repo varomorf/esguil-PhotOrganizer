@@ -15,12 +15,14 @@
         $scope.nextImage = nextImage;
         $scope.prevImage = prevImage;
         $scope.keepImage = keepImage;
+        $scope.organize = organize;
 
         // ATTRIBUTES
 
         var fs = require('fs');
         var remote = require('remote');
         var dialog = remote.require('dialog');
+        var imgFile = require('./components/imageFile.js');
 
         var fileSet = [];
         var currentFile = 0;
@@ -67,8 +69,16 @@
          * <p>Marks the current image to be kept.</p>
          */
         function keepImage() {
-            //TODO refactor the different statuses as Enum or whatever
-            fileSet[currentFile].status = 1;
+            fileSet[currentFile].keepImage();
+        }
+
+        /**
+         * <p>Executes all the images' actions.</p>
+         */
+        function organize() {
+            fileSet.forEach(function (imageFile) {
+                imageFile.execute();
+            });
         }
 
         // INTERNAL METHODS
@@ -90,17 +100,12 @@
                 var filePath = $scope.dirPath + '/' + it;
 
                 if (fs.statSync(filePath).isFile()) {
-                    fileSet.push(new ImageFile(filePath));
+                    fileSet.push(new imgFile.ImageFile(filePath));
                 }
             });
             $scope.$apply(function () {
                 $scope.currentImg = fileSet[0].path;
             });
-        }
-
-        function ImageFile(path){
-            this.path = path;
-            this.status = 0;
         }
 
     }
