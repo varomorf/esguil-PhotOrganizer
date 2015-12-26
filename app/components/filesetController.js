@@ -15,6 +15,9 @@
         $scope.nextImage = nextImage;
         $scope.prevImage = prevImage;
         $scope.keepImage = keepImage;
+        $scope.retouchImage = retouchImage;
+        $scope.privateImage = privateImage;
+        $scope.deleteImage = deleteImage;
         $scope.organize = organize;
 
         // ATTRIBUTES
@@ -70,6 +73,27 @@
          */
         function keepImage() {
             fileSet[currentFile].keepImage();
+        }
+
+        /**
+         * <p>Marks the current image to be kept.</p>
+         */
+        function retouchImage() {
+            fileSet[currentFile].retouchImage();
+        }
+
+        /**
+         * <p>Marks the current image to be kept.</p>
+         */
+        function privateImage() {
+            fileSet[currentFile].privateImage();
+        }
+
+        /**
+         * <p>Marks the current image to be kept.</p>
+         */
+        function deleteImage() {
+            fileSet[currentFile].deleteImage();
         }
 
         /**
