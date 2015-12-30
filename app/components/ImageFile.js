@@ -2,71 +2,85 @@
  * Created by Alvaro on 26/12/2015.
  */
 
-exports.ImageFile = function ImageFile(path){
-    this.path = path;
-    this.action = new NullAction();
+(function () {
 
-    this.keepImage = function(){
-        this.action = new KeepAction();
+    'use strict';
+
+    var p = require('path');
+    var fs = require('fs');
+
+    exports.ImageFile = function ImageFile(path) {
+        this.path = path;
+        this.action = new NullAction();
+
+        this.keepImage = function () {
+            this.action = new KeepAction();
+        };
+
+        this.retouchImage = function () {
+            this.action = new RetouchAction();
+        };
+
+        this.privateImage = function () {
+            this.action = new PrivateAction();
+        };
+
+        this.deleteImage = function () {
+            this.action = new DeleteAction();
+        };
+
+        this.execute = function () {
+            this.action.execute(this.path);
+        };
     };
 
-    this.retouchImage = function(){
-        this.action = new RetouchAction();
-    };
+    function NullAction() {
+        this.name = 'No action';
 
-    this.privateImage = function(){
-        this.action = new PrivateAction();
-    };
+        this.execute = function (path) {
+            console.log('Executing action NullAction on path: ' + path);
+        };
+    }
 
-    this.deleteImage = function(){
-        this.action = new DeleteAction();
-    };
+    function KeepAction() {
+        this.name = 'Keep';
 
-    this.execute = function () {
-        this.action.execute(this.path);
-    };
-};
+        this.execute = function (path) {
+            var keepDir = p.dirname(path) + '/keep';
+            var newPath = keepDir + '/' + p.basename(path);
 
-function NullAction(){
-    this.name = 'No action';
+            console.log('Executing action Keep on path: ' + path + ' to dir:' + newPath);
+            //TODO check if dir is already created
+            fs.mkdirSync(keepDir);
+            fs.renameSync(path, newPath);
+        };
+    }
 
-    this.execute = function(path){
-        console.log('Executing action NullAction on path: ' + path);
-    };
-}
+    function RetouchAction() {
+        this.name = 'Retouch';
 
-function KeepAction(){
-    this.name = 'Keep';
+        this.execute = function (path) {
+            //TODO do actual func
+            console.log('Executing action RetouchAction on path: ' + path);
+        };
+    }
 
-    this.execute = function(path){
-        //TODO do actual func
-        console.log('Executing action Keep on path: ' + path);
-    };
-}
+    function PrivateAction() {
+        this.name = 'Private';
 
-function RetouchAction(){
-    this.name = 'Retouch';
+        this.execute = function (path) {
+            //TODO do actual func
+            console.log('Executing action PrivateAction on path: ' + path);
+        };
+    }
 
-    this.execute = function(path){
-        //TODO do actual func
-        console.log('Executing action RetouchAction on path: ' + path);
-    };
-}
+    function DeleteAction() {
+        this.name = 'Delete';
 
-function PrivateAction(){
-    this.name = 'Private';
+        this.execute = function (path) {
+            //TODO do actual func
+            console.log('Executing action DeleteAction on path: ' + path);
+        };
+    }
 
-    this.execute = function(path){
-        //TODO do actual func
-        console.log('Executing action PrivateAction on path: ' + path);
-    };
-}
-
-function DeleteAction(){
-    this.name = 'Delete';
-
-    this.execute = function(path){
-        //TODO do actual func
-        console.log('Executing action DeleteAction on path: ' + path);
-    };
-}
+})();
