@@ -2,24 +2,21 @@
 <html ng-app="photo-organizer">
   <head>
     <meta charset="UTF-8">
+    <script>
+      require("zone.js");
+    </script>
     <title>Hello World!</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.g
-
-    <div ng-controller="testController as test">
-      <strong>{{test.message}}</strong>
+    <h1>Photo Organizer</h1>
+    <div class="container">
+        <app></app>
     </div>
 
-    <!-- build:js scripts/vendor.js -->
-    <script src="bower_components/angular/angular.min.js"></script>
-    <!-- endbuild -->
-
     <!-- build:app scripts/app.js -->
-    <script src="./components/testController.js"></script>
+    <script src="../build/common.js"></script>
+    <script src="../build/angular2.rc.js"></script>
+    <script src="../build/bootstrap.js"></script>
     <!-- endbuild -->
 
   </body>
