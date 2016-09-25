@@ -33,8 +33,14 @@ export class KeepAction extends ImageFileAction {
         var newPath = keepDir + '/' + p.basename(path);
 
         console.log('Executing action Keep on path: ' + path + ' to dir:' + newPath);
-        //TODO check if dir is already created
-        fs.mkdirSync(keepDir);
+        try {
+            // check if dir is already created
+            fs.accessSync(keepDir, fs.constants.F_OK);
+        } catch (e) {
+            // It isn't accessible -> create
+            fs.mkdirSync(keepDir);
+        }
+        // Do the execution after assuring dir
         fs.renameSync(path, newPath);
     };
 }

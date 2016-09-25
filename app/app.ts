@@ -6,6 +6,12 @@ import {Component} from '@angular/core';
 import * as fs from "fs";
 import {ImageFile, KeepAction, RetouchAction, PrivateAction, DeleteAction} from "./components/imageFile";
 import {remote} from 'electron';
+import {
+    DomSanitizationService,
+    SafeUrl
+} from '@angular/platform-browser';
+import {Observable} from "rxjs";
+
 
 let dialog = remote.dialog;
 
@@ -15,7 +21,7 @@ let dialog = remote.dialog;
     <button id="openDir" (click)="openDir()">Open</button>
         <input id="dirPath" type="text" disabled value="{{dirPath}}"/>
         <br />
-        <img id="processingImage" src="{{currentImg}}"/>
+        <img id="processingImage" [src]="currentImg | async"/>
         <br/>
         <button id="prevImage" (click)="prevImage()">Previous Image</button>
         <button id="keepImage" (click)="keepImage()">Keep</button>
@@ -30,13 +36,13 @@ let dialog = remote.dialog;
 export class AppComponent {
 
     dirPath: string;
-    currentImg: string;
+    currentImg: Observable<SafeUrl>;
     fileSet: ImageFile[] = [];
     currentFile: number = 0;
 
-    constructor() {
+    constructor(private sanitization: DomSanitizationService) {
         this.dirPath = "";
-        this.currentImg = "";
+        this.currentImg = Observable.of<SafeUrl>(null);
     }
 
     /**
@@ -44,11 +50,21 @@ export class AppComponent {
      * <p>After a directory is selected, it will be analyzed and all images will be loaded to be organized.</p>
      */
     openDir() {
-        dialog.showOpenDialog({defaultPath: 'C:\\', properties: ['openDirectory']}, (fileNames) => {
-            //TODO assert only one file name is present
-            this.dirPath = fileNames[0];
-            fs.readdir(this.dirPath, (e, f) => this.loadFiles(e, f));
-        });
+        new Promise((resolve, reject) => {
+            dialog.showOpenDialog({defaultPath: 'C:\\', properties: ['openDirectory']}, (fileNames) => {
+                //TODO assert only one file name is present
+                this.dirPath = fileNames[0];
+                fs.readdir(this.dirPath, (e, f) => {
+                    this.loadFiles(e, f);
+                    resolve();
+                });
+            })
+        }).then(() => this.setSanitizedCurrentImage());
+    }
+
+    setSanitizedCurrentImage() {
+        let currentPath = this.fileSet[this.currentFile].path;
+        this.currentImg = Observable.of(this.sanitization.bypassSecurityTrustUrl(currentPath));
     }
 
     /**
@@ -58,7 +74,7 @@ export class AppComponent {
     nextImage() {
         if (this.currentFile < this.fileSet.length - 1) {
             this.currentFile++;
-            this.currentImg = this.fileSet[this.currentFile].path;
+            this.setSanitizedCurrentImage();
         }
     }
 
@@ -69,7 +85,7 @@ export class AppComponent {
     prevImage() {
         if (this.currentFile != 0) {
             this.currentFile--;
-            this.currentImg = this.fileSet[this.currentFile].path;
+            this.setSanitizedCurrentImage();
         }
     }
 
@@ -119,8 +135,6 @@ export class AppComponent {
      * @param files Array with file name's from directory.
      */
     loadFiles(err: NodeJS.ErrnoException, files: string[]): void {
-        //TODO quitar logs de debug
-        console.log("llega");
         //TODO check errors
         //TODO check no files in directory
         //TODO check no images in directory
@@ -134,9 +148,7 @@ export class AppComponent {
                 this.fileSet.push(new ImageFile(filePath));
             }
         });
-        this.currentImg = this.fileSet[0].path;
-        console.log(this.currentImg);
-        console.log(this.fileSet);
+
     }
 
 }
