@@ -2,32 +2,22 @@
 <html ng-app="photo-organizer">
   <head>
     <meta charset="UTF-8">
+    <script>
+      require("zone.js");
+    </script>
     <title>Hello World!</title>
   </head>
   <body>
     <h1>Photo Organizer</h1>
-    <div ng-controller="filesetController">
-        <button id="openDir" ng-click="openDir()">Open</button>
-        <input id="dirPath" type="text" disabled value="{{dirPath}}"/>
-        <br />
-        <img id="processingImage" src="{{currentImg}}"/>
-        <br/>
-        <button id="prevImage" ng-click="prevImage()">Previous Image</button>
-        <button id="keepImage" ng-click="keepImage()">Keep</button>
-        <button id="retouchImage" ng-click="retouchImage()">Retouch</button>
-        <button id="privateImage" ng-click="privateImage()">Private</button>
-        <button id="deleteImage" ng-click="deleteImage()">Delete</button>
-        <button id="nextImage" ng-click="nextImage()">Next Image</button>
-        <button id="organize" ng-click="organize()">Organize</button>
+    <div class="container">
+        <app></app>
     </div>
 
-    <!-- build:js scripts/vendor.js -->
-    <script src="bower_components/angular/angular.min.js"></script>
-    <!-- endbuild -->
-
     <!-- build:app scripts/app.js -->
-    <script src="./app.js"></script>
-    <script src="./components/filesetController.js"></script>
+    <script src="../build/common.js"></script>
+    <script src="../build/angular2.rc.js"></script>
+    <script src="../build/bootstrap.js"></script>
+    <script src="components/filesetController-old.js"></script>
     <!-- endbuild -->
 
   </body>
