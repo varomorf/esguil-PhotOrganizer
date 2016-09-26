@@ -28,7 +28,8 @@ node_modules
 
 # Intellij IDEA
 *.iml
-.idea
+.idea/
 
-# Bower
-bower_components
+# Building folders
+typings
+build
