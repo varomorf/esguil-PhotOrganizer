@@ -24,6 +24,7 @@
     "build": "webpack --progress --profile --colors --display-error-details --display-cached",
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
     "electron": "electron app",
+    "distribute": "electron-packager . Esguil-PhotoOrganizer --platform=win32 --arch=all --out=releases/ --overwrite --asar",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
