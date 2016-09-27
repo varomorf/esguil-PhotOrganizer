@@ -4,13 +4,14 @@
 
 import {Component} from '@angular/core';
 import * as fs from "fs";
-import {ImageFile, KeepAction, RetouchAction, PrivateAction, DeleteAction} from "./components/imageFile";
+import {KeepAction, RetouchAction, PrivateAction, DeleteAction} from "./files/actions/ImageAction";
 import {remote} from 'electron';
 import {
     DomSanitizationService,
     SafeUrl
 } from '@angular/platform-browser';
 import {Observable} from "rxjs";
+import {ImageFile} from "./files/ImageFile";
 
 
 let dialog = remote.dialog;

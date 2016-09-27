@@ -80,19 +80,3 @@ export class DeleteAction extends ImageFileAction {
         console.log('Executing action DeleteAction on path: ' + path);
     };
 }
-
-export class ImageFile {
-
-    path: string;
-    action: ImageFileAction;
-
-    constructor(path) {
-        this.path = path;
-        this.action = null;
-    }
-
-    execute() {
-        this.action.execute(this.path);
-    }
-
-}
