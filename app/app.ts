@@ -12,6 +12,7 @@ import {
 } from '@angular/platform-browser';
 import {Observable} from "rxjs";
 import {ImageFile} from "./files/ImageFile";
+import {FileSet} from "./files/FileSet";
 
 
 let dialog = remote.dialog;
@@ -20,7 +21,7 @@ let dialog = remote.dialog;
     selector: 'app',
     template: `
     <button id="openDir" (click)="openDir()">Open</button>
-        <input id="dirPath" type="text" disabled value="{{dirPath}}"/>
+        <input id="dirPath" type="text" disabled value="{{fileSet.dirPath}}"/>
         <br />
         <img id="processingImage" [src]="currentImg | async"/>
         <br/>
@@ -36,13 +37,11 @@ let dialog = remote.dialog;
 
 export class AppComponent {
 
-    dirPath: string;
     currentImg: Observable<SafeUrl>;
-    fileSet: ImageFile[] = [];
+    private fileSet: FileSet = new FileSet();
     currentFile: number = 0;
 
     constructor(private sanitization: DomSanitizationService) {
-        this.dirPath = "";
         this.currentImg = Observable.of<SafeUrl>(null);
     }
 
@@ -54,9 +53,9 @@ export class AppComponent {
         new Promise((resolve, reject) => {
             dialog.showOpenDialog({defaultPath: 'C:\\', properties: ['openDirectory']}, (fileNames) => {
                 //TODO assert only one file name is present
-                this.dirPath = fileNames[0];
-                fs.readdir(this.dirPath, (e, f) => {
-                    this.loadFiles(e, f);
+                this.fileSet.dirPath = fileNames[0];
+                fs.readdir(this.fileSet.dirPath, (e, f) => {
+                    this.fileSet.loadFiles(e, f);
                     resolve();
                 });
             })
@@ -64,7 +63,7 @@ export class AppComponent {
     }
 
     setSanitizedCurrentImage() {
-        let currentPath = this.fileSet[this.currentFile].path;
+        let currentPath = this.fileSet.getCurrentImagePath();
         this.currentImg = Observable.of(this.sanitization.bypassSecurityTrustUrl(currentPath));
     }
 
@@ -73,10 +72,8 @@ export class AppComponent {
      * <p>If the last image was selected, no changes will be done.</p>
      */
     nextImage() {
-        if (this.currentFile < this.fileSet.length - 1) {
-            this.currentFile++;
-            this.setSanitizedCurrentImage();
-        }
+        this.fileSet.nextImage();
+        this.setSanitizedCurrentImage();
     }
 
     /**
@@ -84,72 +81,43 @@ export class AppComponent {
      * <p>If the first image was selected, no changes will be done.</p>
      */
     prevImage() {
-        if (this.currentFile != 0) {
-            this.currentFile--;
-            this.setSanitizedCurrentImage();
-        }
+        this.fileSet.prevImage();
+        this.setSanitizedCurrentImage();
     }
 
     /**
      * <p>Marks the current image to be kept.</p>
      */
     keepImage() {
-        this.fileSet[this.currentFile].action = new KeepAction();
+        this.fileSet.keepImage();
     }
 
     /**
      * <p>Marks the current image to be kept.</p>
      */
     retouchImage() {
-        this.fileSet[this.currentFile].action = new RetouchAction();
+        this.fileSet.retouchImage();
     }
 
     /**
      * <p>Marks the current image to be kept.</p>
      */
     privateImage() {
-        this.fileSet[this.currentFile].action = new PrivateAction();
+        this.fileSet.privateImage();
     }
 
     /**
      * <p>Marks the current image to be kept.</p>
      */
     deleteImage() {
-        this.fileSet[this.currentFile].action = new DeleteAction();
+        this.fileSet.deleteImage();
     }
 
     /**
      * <p>Executes all the images' actions.</p>
      */
     organize() {
-        this.fileSet.forEach(function (imageFile: ImageFile) {
-            imageFile.execute();
-        });
-    }
-
-    // INTERNAL METHODS
-
-    /**
-     * <p>Callback from fs.readdir to  load all images that are under dirPath and select the first one
-     * as current image.</p>
-     * @param err Errors.
-     * @param files Array with file name's from directory.
-     */
-    loadFiles(err: NodeJS.ErrnoException, files: string[]): void {
-        //TODO check errors
-        //TODO check no files in directory
-        //TODO check no images in directory
-        this.fileSet = [];
-        this.currentFile = 0;
-
-        files.forEach((it) => {
-            var filePath = this.dirPath + '/' + it;
-
-            if (fs.statSync(filePath).isFile()) {
-                this.fileSet.push(new ImageFile(filePath));
-            }
-        });
-
+        this.fileSet.organize();
     }
 
 }
