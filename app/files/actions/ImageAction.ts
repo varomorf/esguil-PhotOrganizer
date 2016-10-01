@@ -22,61 +22,75 @@ export class NullAction extends ImageFileAction {
     }
 }
 
-export class KeepAction extends ImageFileAction {
+abstract class MoveFileAction extends ImageFileAction {
+
+    constructor(){
+        super();
+    }
+
+    abstract getTargetDirPath(): string;
+
+    execute(path: string) {
+        var newDir = p.dirname(path) + '/' + this.getTargetDirPath();
+        var newPath = newDir + '/' + p.basename(path);
+
+        console.log('Executing action ' + this.name + ' on path: ' + path + ' to dir:' + newPath);
+        try {
+            // check if dir is already created
+            fs.accessSync(newDir, fs.constants.F_OK);
+        } catch (e) {
+            // It isn't accessible -> create
+            fs.mkdirSync(newDir);
+        }
+        // Do the execution after assuring dir
+        fs.renameSync(path, newPath);
+    };
+
+}
+
+export class KeepAction extends MoveFileAction {
+
     constructor() {
         super();
         name = 'Keep';
     }
 
-    execute(path: string) {
-        var keepDir = p.dirname(path) + '/keep';
-        var newPath = keepDir + '/' + p.basename(path);
-
-        console.log('Executing action Keep on path: ' + path + ' to dir:' + newPath);
-        try {
-            // check if dir is already created
-            fs.accessSync(keepDir, fs.constants.F_OK);
-        } catch (e) {
-            // It isn't accessible -> create
-            fs.mkdirSync(keepDir);
-        }
-        // Do the execution after assuring dir
-        fs.renameSync(path, newPath);
+    getTargetDirPath(): string {
+        return 'keep';
     };
 }
 
-export class RetouchAction extends ImageFileAction {
+export class RetouchAction extends MoveFileAction {
     constructor() {
         super();
         name = 'Retouch';
     }
 
-    execute(path: string) {
-        //TODO do actual func
-        console.log('Executing action RetouchAction on path: ' + path);
+
+    getTargetDirPath(): string {
+        return 'retouch';
     };
 }
 
-export class PrivateAction extends ImageFileAction {
+export class PrivateAction extends MoveFileAction {
     constructor() {
         super();
         name = 'Private';
     }
 
-    execute(path: string) {
-        //TODO do actual func
-        console.log('Executing action PrivateAction on path: ' + path);
+
+    getTargetDirPath(): string {
+        return 'private';
     };
 }
 
-export class DeleteAction extends ImageFileAction {
+export class DeleteAction extends MoveFileAction {
     constructor() {
         super();
         name = 'Delete';
     }
 
-    execute(path: string) {
-        //TODO do actual func
-        console.log('Executing action DeleteAction on path: ' + path);
+    getTargetDirPath(): string {
+        return 'delete';
     };
 }
