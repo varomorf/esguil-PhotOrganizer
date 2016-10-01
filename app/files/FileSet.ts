@@ -7,12 +7,30 @@ import * as fs from "fs";
 
 export class FileSet {
 
+    /**
+     * The path of the directory to be organized.
+     * @type {string}
+     */
     dirPath: string = '';
+
+    /**
+     * An array with all the ImageFile objects representing all images in a folder.
+     * @type {Array}
+     */
     fileSet: ImageFile[] = [];
+
+    /**
+     * The numeric position of the current file been shown.
+     * @type {number}
+     */
     currentFile: number = 0;
 
-    getCurrentImagePath(){
-        return  this.fileSet[this.currentFile].path;
+    /**
+     * Returns the path of the current image.
+     * @returns {string}
+     */
+    getCurrentImagePath() {
+        return this.fileSet[this.currentFile].path;
     }
 
     /**

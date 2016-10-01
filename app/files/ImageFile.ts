@@ -5,12 +5,19 @@ import {ImageFileAction, NullAction} from "./actions/ImageAction";
 
 export class ImageFile {
 
+    /**
+     * The path of the image.
+     */
     path: string;
-    action: ImageFileAction = new NullAction();
+
+    /**
+     * The action to be performed on the image.
+     */
+    action: ImageFileAction;
 
     constructor(path) {
         this.path = path;
-        this.action = null;
+        this.action = new NullAction();
     }
 
     execute() {

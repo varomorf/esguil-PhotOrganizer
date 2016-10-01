@@ -4,14 +4,12 @@
 
 import {Component} from '@angular/core';
 import * as fs from "fs";
-import {KeepAction, RetouchAction, PrivateAction, DeleteAction} from "./files/actions/ImageAction";
 import {remote} from 'electron';
 import {
     DomSanitizationService,
     SafeUrl
 } from '@angular/platform-browser';
 import {Observable} from "rxjs";
-import {ImageFile} from "./files/ImageFile";
 import {FileSet} from "./files/FileSet";
 
 
@@ -37,9 +35,16 @@ let dialog = remote.dialog;
 
 export class AppComponent {
 
+    /**
+     * The image currently been shown.
+     */
     currentImg: Observable<SafeUrl>;
-    private fileSet: FileSet = new FileSet();
-    currentFile: number = 0;
+
+    /**
+     * The fileset we're working on.
+     * @type {FileSet}
+     */
+    fileSet: FileSet = new FileSet();
 
     constructor(private sanitization: DomSanitizationService) {
         this.currentImg = Observable.of<SafeUrl>(null);
@@ -52,16 +57,20 @@ export class AppComponent {
     openDir() {
         new Promise((resolve, reject) => {
             dialog.showOpenDialog({defaultPath: 'C:\\', properties: ['openDirectory']}, (fileNames) => {
-                //TODO assert only one file name is present
                 this.fileSet.dirPath = fileNames[0];
                 fs.readdir(this.fileSet.dirPath, (e, f) => {
                     this.fileSet.loadFiles(e, f);
+
+                    // end the promise
                     resolve();
                 });
             })
         }).then(() => this.setSanitizedCurrentImage());
     }
 
+    /**
+     * Sets the currently shown image sanitazing its URL so Angular doesn't complain.
+     */
     setSanitizedCurrentImage() {
         let currentPath = this.fileSet.getCurrentImagePath();
         this.currentImg = Observable.of(this.sanitization.bypassSecurityTrustUrl(currentPath));
