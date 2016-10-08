@@ -17,20 +17,7 @@ let dialog = remote.dialog;
 
 @Component({
     selector: 'app',
-    template: `
-    <button id="openDir" (click)="openDir()">Open</button>
-        <input id="dirPath" type="text" disabled value="{{fileSet.dirPath}}"/>
-        <br />
-        <img id="processingImage" [src]="currentImg | async"/>
-        <br/>
-        <button id="prevImage" (click)="prevImage()">Previous Image</button>
-        <button id="keepImage" (click)="keepImage()">Keep</button>
-        <button id="retouchImage" (click)="retouchImage()">Retouch</button>
-        <button id="privateImage" (click)="privateImage()">Private</button>
-        <button id="deleteImage" (click)="deleteImage()">Delete</button>
-        <button id="nextImage" (click)="nextImage()">Next Image</button>
-        <button id="organize" (click)="organize()">Organize</button>
-  `
+    templateUrl: 'app.component.html'
 })
 
 export class AppComponent {
