@@ -33,6 +33,12 @@ export class AppComponent {
      */
     fileSet: FileSet = new FileSet();
 
+    /**
+     * The name of the action to be applied to the current image.
+     * @type {string}
+     */
+    currentImageAction: string = '';
+
     constructor(private sanitization: DomSanitizationService) {
         this.currentImg = Observable.of<SafeUrl>(null);
     }
@@ -70,6 +76,7 @@ export class AppComponent {
     nextImage() {
         this.fileSet.nextImage();
         this.setSanitizedCurrentImage();
+        this.currentImageAction = this.fileSet.getCurrentImageAction();
     }
 
     /**
@@ -79,6 +86,7 @@ export class AppComponent {
     prevImage() {
         this.fileSet.prevImage();
         this.setSanitizedCurrentImage();
+        this.currentImageAction = this.fileSet.getCurrentImageAction();
     }
 
     /**
