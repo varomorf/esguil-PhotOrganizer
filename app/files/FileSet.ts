@@ -34,6 +34,20 @@ export class FileSet {
     }
 
     /**
+     * Returns the name of the current image action.
+     * @returns {string}
+     */
+    getCurrentImageAction() {
+        var currentFile = this.fileSet[this.currentFile];
+
+        if(null == currentFile){
+            return '';
+        }
+
+        return currentFile.action.name;
+    }
+
+    /**
      * <p>Shows the next picture of the fileset (as long as it holds at least one image).</p>
      * <p>If the last image was selected, no changes will be done.</p>
      */
