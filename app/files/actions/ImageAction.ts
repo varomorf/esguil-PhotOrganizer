@@ -48,16 +48,16 @@ abstract class MoveFileAction extends ImageFileAction {
 
 }
 
-export class KeepAction extends MoveFileAction {
+export class KeepAction extends ImageFileAction {
 
     constructor() {
         super();
         this.name = 'Keep';
     }
 
-    getTargetDirPath(): string {
-        return 'keep';
-    };
+    execute(path: string) {
+        console.log('Keeping file: ' + path);
+    }
 }
 
 export class RetouchAction extends MoveFileAction {
