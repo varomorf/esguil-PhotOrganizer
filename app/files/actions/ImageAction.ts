@@ -14,7 +14,7 @@ export abstract class ImageFileAction {
 export class NullAction extends ImageFileAction {
     constructor() {
         super();
-        name = 'No action';
+        this.name = 'No action';
     }
 
     execute(path: string) {
@@ -52,7 +52,7 @@ export class KeepAction extends MoveFileAction {
 
     constructor() {
         super();
-        name = 'Keep';
+        this.name = 'Keep';
     }
 
     getTargetDirPath(): string {
@@ -63,7 +63,7 @@ export class KeepAction extends MoveFileAction {
 export class RetouchAction extends MoveFileAction {
     constructor() {
         super();
-        name = 'Retouch';
+        this.name = 'Retouch';
     }
 
 
@@ -75,7 +75,7 @@ export class RetouchAction extends MoveFileAction {
 export class PrivateAction extends MoveFileAction {
     constructor() {
         super();
-        name = 'Private';
+        this.name = 'Private';
     }
 
 
@@ -87,7 +87,7 @@ export class PrivateAction extends MoveFileAction {
 export class DeleteAction extends MoveFileAction {
     constructor() {
         super();
-        name = 'Delete';
+        this.name = 'Delete';
     }
 
     getTargetDirPath(): string {
