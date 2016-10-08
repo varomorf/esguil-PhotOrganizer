@@ -40,7 +40,7 @@ export class AppComponent {
     currentImageAction: string = '';
 
     constructor(private sanitization: DomSanitizationService) {
-        this.currentImg = Observable.of<SafeUrl>(null);
+        this.currentImg = Observable.of<SafeUrl>('assets/images/No_image_available.svg');
     }
 
     /**
