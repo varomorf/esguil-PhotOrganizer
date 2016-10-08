@@ -86,6 +86,7 @@ export class AppComponent {
      */
     keepImage() {
         this.fileSet.keepImage();
+        this.nextImage();
     }
 
     /**
@@ -93,6 +94,7 @@ export class AppComponent {
      */
     retouchImage() {
         this.fileSet.retouchImage();
+        this.nextImage();
     }
 
     /**
@@ -100,6 +102,7 @@ export class AppComponent {
      */
     privateImage() {
         this.fileSet.privateImage();
+        this.nextImage();
     }
 
     /**
@@ -107,6 +110,7 @@ export class AppComponent {
      */
     deleteImage() {
         this.fileSet.deleteImage();
+        this.nextImage();
     }
 
     /**
