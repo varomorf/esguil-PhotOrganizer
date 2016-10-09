@@ -10,7 +10,7 @@
         "outDir": "build/"
     },
     "include": [
-        "app/app.ts",
+        "app/app.component.ts",
         "app/components/**/*"
     ],
     "exclude": [

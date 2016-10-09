@@ -6,7 +6,7 @@ import {Component} from '@angular/core';
 import * as fs from "fs";
 import {remote} from 'electron';
 import {
-    DomSanitizationService,
+    DomSanitizer,
     SafeUrl
 } from '@angular/platform-browser';
 import {Observable} from "rxjs";
@@ -39,7 +39,7 @@ export class AppComponent {
      */
     currentImageAction: string = '';
 
-    constructor(private sanitization: DomSanitizationService) {
+    constructor(private sanitization: DomSanitizer) {
         this.currentImg = Observable.of<SafeUrl>('assets/images/No_image_available.svg');
     }
 
