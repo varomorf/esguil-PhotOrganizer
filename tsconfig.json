@@ -9,10 +9,6 @@
         "sourceMap": true,
         "outDir": "build/"
     },
-    "include": [
-        "app/app.component.ts",
-        "app/components/**/*"
-    ],
     "exclude": [
         "node_modules"
     ]
